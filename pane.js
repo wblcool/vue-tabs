@@ -17,6 +17,10 @@ Vue.component("pane", {
         label: {
             type: String,
             default: ""
+        },
+        closable: {
+            type: Boolean,
+            default: false
         }
     },
     methods: {
@@ -30,6 +34,9 @@ Vue.component("pane", {
         }
     },
     mounted(){
+        this.updateNav();
+    },
+    beforeDestroy(){
         this.updateNav();
     }
 }) 

@@ -6,6 +6,11 @@ Vue.component("tabs", {
                      v-for="(item, index) in navList"
                      @click="handleChange(index)">
                      {{ item.label }}
+                     <div class="tabs-tab-close" 
+                          @click="close(index)"
+                          v-if="item.closable">
+                            <i class="fa fa-times"></i>
+                     </div>
                 </div>     
             </div>
             <div class = "tabs-content"> 
@@ -54,9 +59,11 @@ Vue.component("tabs", {
             this.$emit("on-click", name);
         },
         getTabs(){
+            console.log("子组件", this.$children);
             //通过遍历子组件,得到所有的pane组件
             return this.$children.filter(function(item){
-                return item.$options.name === "pane"//获取组件中定义的name值
+                //item.$options.name 获取组件中定义的name值
+                return item.$options.name === "pane";
             })
         },
         updateNav(){//用于更新获取pane中标签列表
@@ -66,7 +73,8 @@ Vue.component("tabs", {
             this.getTabs().forEach(function(pane, index){
                 _this.navList.push({
                     label: pane.label,
-                    name: pane.name || index
+                    name: pane.name || index,
+                    closable: pane.closable
                 });
                 //如果没有给pane设置name,默认设置它的索引
                 if(!pane.name)pane.name = index;
@@ -87,6 +95,9 @@ Vue.component("tabs", {
             tabs.forEach(function(tab){
                 return tab.show = tab.name === _this.currentValue;
             })
+        },
+        close(index){
+            this.navList.splice(index, 1);
         }
     }
 }) 

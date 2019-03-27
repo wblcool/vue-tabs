@@ -40,3 +40,8 @@
 .tabs-content{
     padding: 8px 0;
 }
+.tabs-tab-close{
+    position: absolute;
+    top: 0;
+    right: 2px;
+}
